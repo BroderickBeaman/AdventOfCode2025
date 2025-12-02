@@ -21,7 +21,7 @@ public record Range(long low, long high) {
         String lowerString = String.valueOf(low);
         String highString = String.valueOf(high);
 
-        // There can't be repeated halves is the length is odd and the range is all the same length
+        // There can't be repeated halves if the length is odd and the range is all the same length
         if (lowerString.length() % 2 == 1 && lowerString.length() == highString.length()) {
             return 0;
         }
