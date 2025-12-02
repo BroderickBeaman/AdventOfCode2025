@@ -5,9 +5,16 @@ import framework.AOCParent;
 import java.util.List;
 
 public class Dec01 extends AOCParent {
+
+    private List<Integer> commands;
+
+    @Override
+    public void loadInput() {
+        commands = InputLoader.loadCommands();
+    }
+
     @Override
     public void part1() {
-        List<Integer> commands = InputLoader.loadCommands();
         int current = 50;
         int zeroCount = 0;
         for (Integer command : commands) {
@@ -23,7 +30,6 @@ public class Dec01 extends AOCParent {
 
     @Override
     public void part2() {
-        List<Integer> commands = InputLoader.loadCommands();
         int current = 50;
         int zeroCount = 0;
 

@@ -6,7 +6,12 @@ import java.util.List;
 
 public class Dec02 extends AOCParent {
 
-    public static List<Range> ranges = InputLoader.loadRanges();
+    public static List<Range> ranges;
+
+    @Override
+    public void loadInput() {
+        ranges = InputLoader.loadRanges();
+    }
 
     @Override
     public void part1() {

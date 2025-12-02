@@ -6,6 +6,7 @@ package framework;
 public abstract class AOCParent {
     private long start;
 
+    public abstract void loadInput();
     public abstract void part1();
     public abstract void part2();
 
@@ -40,6 +41,8 @@ public abstract class AOCParent {
      * Runs both part 1 and part 2
      */
     public void run() {
+        loadInput();
+
         startPart(1);
         part1();
         endPart();
