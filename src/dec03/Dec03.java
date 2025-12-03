@@ -15,17 +15,17 @@ public class Dec03 extends AOCParent {
 
     @Override
     public void part1() {
-        long sum = banks.stream().mapToLong(bank -> findLargestV2("", bank, 1)).sum();
+        long sum = banks.stream().mapToLong(bank -> findLargest("", bank, 1)).sum();
         printSolution(sum);
     }
 
     @Override
     public void part2() {
-        long sum = banks.stream().mapToLong(bank -> findLargestV2("", bank, 11)).sum();
+        long sum = banks.stream().mapToLong(bank -> findLargest("", bank, 11)).sum();
         printSolution(sum);
     }
 
-    private long findLargestV2(String acc, List<Integer> digits, int target) {
+    private long findLargest(String acc, List<Integer> digits, int target) {
         if (target == -1) {
             return Long.parseLong(acc);
         }
@@ -41,6 +41,6 @@ public class Dec03 extends AOCParent {
             }
         }
 
-        return findLargestV2(acc + largest, digits.subList(index + 1, digits.size()), target - 1);
+        return findLargest(acc + largest, digits.subList(index + 1, digits.size()), target - 1);
     }
 }
