@@ -6,72 +6,41 @@ import java.util.*;
 
 public class Dec03 extends AOCParent {
 
-    private List<String> banks;
+    private List<List<Integer>> banks;
 
     @Override
     public void loadInput() {
-        banks = InputLoader.loadLines();
+        banks = InputLoader.loadBanks();
     }
 
     @Override
     public void part1() {
-        long sum = banks.stream().mapToLong(bank -> {
-            int largestPos = 0;
-            for (int i = 9; i > 0; i--) {
-                int pos = bank.indexOf(String.valueOf(i));
-                if (pos != -1 && pos != bank.length() - 1) {
-                    largestPos = pos;
-                    break;
-                }
-            }
-
-            int secondPos = 0;
-            for (int i = 9; i > 0; i--) {
-                int pos = bank.lastIndexOf(String.valueOf(i));
-                if (pos > largestPos) {
-                    secondPos = pos;
-                    break;
-                }
-            }
-
-            String resultString = String.valueOf(bank.charAt(largestPos)) + bank.charAt(secondPos);
-            return Long.parseLong(resultString);
-        }).sum();
-
+        long sum = banks.stream().mapToLong(bank -> findLargestV2("", bank, 1)).sum();
         printSolution(sum);
     }
 
     @Override
     public void part2() {
-//        long sum = banks.stream().mapToLong(bank -> {
-//            String optimized = bank;
-//            List<Integer> digits = new ArrayList<>();
-//
-//            List<Integer> indexesToRemove = new ArrayList<>();
-//
-//            int digitOffset = 0;
-//            for (int i = 0; i < digits.size() - 1; i++) {
-//                if (digits.get(i) > digits.get(i + 1)) {
-//                    indexesToRemove.add(i - digitOffset);
-//                    digitOffset++;
-//                }
-//            }
-//
-//            digits.re
-//        }).sum();
-//
-//        printSolution(sum);
-
+        long sum = banks.stream().mapToLong(bank -> findLargestV2("", bank, 11)).sum();
+        printSolution(sum);
     }
 
-    private List<Integer> allIndexesOfDigit(String bank, int digit) {
-        String digitString = String.valueOf(digit);
-        List<Integer> indeces = new ArrayList<>();
-        int index = bank.indexOf(digitString);
-        while (index >= 0) {
-            indeces.add(index);
-            index = bank.indexOf(digitString, index + 1);
+    private long findLargestV2(String acc, List<Integer> digits, int target) {
+        if (target == -1) {
+            return Long.parseLong(acc);
         }
-        return indeces;
+
+        int largest = 0;
+        int index = 0;
+
+        for (int i = 0; i < digits.size() - target; i++) {
+            int test = digits.get(i);
+            if (test > largest) {
+                largest = test;
+                index = i;
+            }
+        }
+
+        return findLargestV2(acc + largest, digits.subList(index + 1, digits.size()), target - 1);
     }
 }
