@@ -139,11 +139,20 @@ public class Grid<T> {
     }
 
     /**
+     * Finds the first location of a specified value in the grid
+     * @param value The value to search for
+     * @return The first location where that value is located
+     */
+    public Coordinate findValue(T value) {
+        return findValues(value).getFirst();
+    }
+
+    /**
      * Finds all locations where a specified value is located
      * @param value The value to search for
      * @return All locations where that value is located
      */
-    public List<Coordinate> findValue(T value) {
+    public List<Coordinate> findValues(T value) {
         List<Coordinate> locations = new ArrayList<>();
         for (int row = 0; row < rows(); row++) {
             for (int col = 0; col < cols(); col++) {
