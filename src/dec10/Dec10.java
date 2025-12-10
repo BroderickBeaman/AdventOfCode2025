@@ -75,6 +75,6 @@ public class Dec10 extends AOCParent {
 
     @Override
     public void part2() {
-
+        // Used z3, I am not proud :(
     }
 }
