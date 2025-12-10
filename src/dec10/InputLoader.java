@@ -28,7 +28,12 @@ public class InputLoader extends InputLoaderParent {
                 buttons.add(buttonNums);
             }
 
-            machines.add(new Machine(indicators, buttons));
+            String joltageString = parts[parts.length - 1];
+            joltageString = joltageString.substring(1, joltageString.length() - 1);
+            String[] joltageParts = joltageString.split(",");
+            List<Integer> joltage = Arrays.stream(joltageParts).map(Integer::parseInt).toList();
+
+            machines.add(new Machine(indicators, buttons, joltage));
         }
 
         return machines;

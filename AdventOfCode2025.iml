@@ -41,5 +41,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="tools.aqua.z3.turnkey" level="project" />
   </component>
 </module>
