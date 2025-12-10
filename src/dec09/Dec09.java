@@ -1,28 +1,27 @@
 package dec09;
 
 import framework.AOCParent;
-import framework.utils.Coordinate;
-
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dec09 extends AOCParent {
 
-    private List<Coordinate> redTiles;
-    private Polygon polygon;
+    private List<Point> points;
+    private List<Line> lines;
 
     @Override
     public void loadInput() {
-        redTiles = InputLoader.loadRedTiles();
-        polygon = new Polygon(redTiles);
+        points = InputLoader.loadPoints();
     }
 
     @Override
     public void part1() {
         long largestRect = 0;
-        for (int i = 0; i < redTiles.size() - 1; i++) {
-            Coordinate a = redTiles.get(i);
-            for (int j = i + 1; j < redTiles.size(); j++) {
-                Coordinate b = redTiles.get(j);
+        for (int i = 0; i < points.size() - 1; i++) {
+            Point a = points.get(i);
+            for (int j = i + 1; j < points.size(); j++) {
+                Point b = points.get(j);
                 long rect = area(a, b);
                 largestRect = Math.max(largestRect, rect);
             }
@@ -32,13 +31,18 @@ public class Dec09 extends AOCParent {
 
     @Override
     public void part2() {
+        lines = new ArrayList<>();
+        for (int i = 0; i < points.size(); i++) {
+            lines.add(new Line(points.get(i), points.get((i + 1) % points.size())));
+        }
+
         long largestRect = 0;
-        for (int i = 0; i < redTiles.size() - 1; i++) {
-            Coordinate a = redTiles.get(i);
-            for (int j = i + 1; j < redTiles.size(); j++) {
-                Coordinate b = redTiles.get(j);
+        for (int i = 0; i < points.size() - 1; i++) {
+            Point a = points.get(i);
+            for (int j = i + 1; j < points.size(); j++) {
+                Point b = points.get(j);
                 long rect = area(a, b);
-                if (rect > largestRect && rectSpotCheck(a, b)) {
+                if (rect > largestRect && isValidRectP2(a, b)) {
                     largestRect = rect;
                 }
             }
@@ -46,28 +50,25 @@ public class Dec09 extends AOCParent {
         printSolution(largestRect);
     }
 
-    private long area(Coordinate a, Coordinate b) {
-        long rowDiff = a.row() - b.row();
-        long colDiff = a.col() - b.col();
-        return Math.abs((rowDiff + 1) * (colDiff + 1));
+    private long area(Point a, Point b) {
+        long xDiff = Math.abs(a.x - b.x);
+        long yDiff = Math.abs(a.y - b.y);
+        return (xDiff + 1) * (yDiff + 1);
     }
 
-    private boolean rectSpotCheck(Coordinate a, Coordinate b) {
-        int halfRow = (a.row() + b.row()) / 2;
-        int halfCol = (a.col() + b.col()) / 2;
+    private boolean isValidRectP2(Point a, Point b) {
+        final int maxX = Math.max(a.x, b.x);
+        final int minX = Math.min(a.x, b.x);
+        final int maxY = Math.max(a.y, b.y);
+        final int minY = Math.min(a.y, b.y);
 
-        for (int i = Math.min(a.col(), b.col()); i <= Math.max(a.col(), b.col()); i++) {
-            if (!polygon.contains(new Coordinate(halfRow, i))) {
-                return false;
-            }
-        }
+        return lines.stream().allMatch(line -> {
+            boolean leftOf = minX >= Math.max(line.start().x, line.end().x);
+            boolean rightOf = maxX <= Math.min(line.start().x, line.end().x);
+            boolean above = maxY <= Math.min(line.start().y, line.end().y);
+            boolean below = minY >= Math.max(line.start().y, line.end().y);
 
-        for (int i = Math.min(a.row(), b.row()); i <= Math.max(a.row(), b.row()); i++) {
-            if (!polygon.contains(new Coordinate(i, halfCol))) {
-                return false;
-            }
-        }
-
-        return true;
+            return leftOf || rightOf || above || below;
+        });
     }
 }
