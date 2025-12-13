@@ -22,7 +22,7 @@ public class Dec05 extends AOCParent {
         Set<Coordinate> overlaps = new HashSet<>();
         for (int i = 0; i < orthogonal.size() - 1; i++) {
             for (int j = i + 1; j < orthogonal.size(); j++) {
-                overlaps.addAll(orthogonal.get(i).overlap(orthogonal.get(j)));
+                overlaps.addAll(orthogonal.get(i).overlapOrthogonal(orthogonal.get(j)));
             }
         }
 

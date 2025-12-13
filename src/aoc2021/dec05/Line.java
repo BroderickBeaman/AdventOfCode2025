@@ -7,7 +7,7 @@ import java.util.Set;
 
 public record Line(Coordinate left, Coordinate right) {
 
-    public Set<Coordinate> overlap(Line other) {
+    public Set<Coordinate> overlapOrthogonal(Line other) {
         if (this.isHorizontal() && other.isHorizontal()) {
             if (!this.left.row().equals(other.left.row())) {
                 // On different rows
