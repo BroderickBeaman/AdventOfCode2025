@@ -31,6 +31,12 @@ public class Dec05 extends AOCParent {
 
     @Override
     public void part2() {
-
+        Set<Coordinate> overlaps = new HashSet<>();
+        for (int i = 0; i < lines.size() - 1; i++) {
+            for (int j = i + 1; j < lines.size(); j++) {
+                overlaps.addAll(lines.get(i).overlap(lines.get(j)));
+            }
+        }
+        printSolution(overlaps.size());
     }
 }
