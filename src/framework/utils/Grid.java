@@ -33,6 +33,16 @@ public class Grid<T> {
         this.grid = (T[][]) Array.newInstance(clazz, rows, cols);
     }
 
+    @SuppressWarnings("unchecked")
+    public Grid(Class<? extends T> clazz, Grid<T> from) {
+        this.grid = (T[][]) Array.newInstance(clazz, from.rows(), from.cols());
+        for (int row = 0; row < from.rows(); row++) {
+            for (int col = 0; col < from.cols(); col++) {
+                grid[row][col] = from.get(row, col);
+            }
+        }
+    }
+
     /**
      * Returns the number of rows in the grid
      * @return The number of rows in the grid
